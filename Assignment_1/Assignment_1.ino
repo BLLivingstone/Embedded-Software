@@ -10,7 +10,7 @@
 //parameters for waveform
 #define PARAM_A 1200     //L  micro
 #define PARAM_B 900      //I  micro
-#define PARAM_C 13       //V
+#define PARAM_C 9       //V
 #define PARAM_D 4500     //I  micro
 //system_mode = 2        //N  Generate inverted form of complete Sig A waveform (from the largest pulse to the shortest) until switch 2 set back to 0 
 
