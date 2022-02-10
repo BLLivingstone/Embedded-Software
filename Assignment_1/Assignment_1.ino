@@ -37,15 +37,15 @@ void setup() {
 //    printf("/n button 2 pressed")
 //}
 
-void function_name(){
+//void function_name(){
 //function 
-for int (i=0;i>10; i++)
-  count=+;
-
-if a, high
-  width+(50*count);
-
-}
+//for int (i=0;i>10; i++)
+//  count=+;
+//
+//if a, high
+//  width+(50*count);
+//
+//}
 
 void loop() {
   // put your main code here, to run repeatedly:
