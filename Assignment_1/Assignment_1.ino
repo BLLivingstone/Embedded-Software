@@ -1,14 +1,15 @@
 #include <stdio.h>
 #include <math.h>
+#include <string.h>
 
 //#define pins
 
 //parameters for waveform
-#define int a = 1200   //L  micro
-#define int b = 900    //I  micro
-#define int c = 9      //V
-#define int d = 4500   //I  micro
-#define int systemMode = 2    //N  Generate inverted form of complete Sig A waveform (from the largest pulse to the shortest) until switch 2 set back to 0 
+#define int a = 1200;   //L  micro
+#define int b = 900;   //I  micro
+#define int c = 9;      //V
+#define int d = 4500;   //I  micro
+#define int systemMode = 2;    //N  Generate inverted form of complete Sig A waveform (from the largest pulse to the shortest) until switch 2 set back to 0 
 
 void setup() {
   // put your setup code here, to run once:
