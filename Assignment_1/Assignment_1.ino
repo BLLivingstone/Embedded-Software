@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <math.h>
 #include <string.h>
 
 //#define pins
@@ -15,9 +14,12 @@
 #define PARAM_D 4500     //I  micro
 //system_mode = 2        //N  Generate inverted form of complete Sig A waveform (from the largest pulse to the shortest) until switch 2 set back to 0 
 
-
-bool button = false; // creates button variable as boolean, this will help with inverting waveform untill button 2 is back to zero
-bool button2 = false;
+int param_c = PARAM_C;
+int param_a = PARAM_A;
+bool button_1 = false; // creates button variable as boolean, this will help with inverting waveform untill button 2 is back to zero
+bool button_2 = false;
+bool debounce_1 = false;
+bool debounce_2 = false;
 
 void setup() {
   //set buttons to input
@@ -29,35 +31,51 @@ void setup() {
   pinMode(SIGNAL_B, OUTPUT);
 
   //set buttons to rising edge
-
-  //printf("\n pin set")
-
+  attachInterrupt(BUTTON_1, change_value, RISING);
+  attachInterrupt(BUTTON_2, change_value, RISING);
+ 
 }
-//void function to invert wave form{
-//  if button 1 pressed
-//    true
-//  else
-//    false
-//    printf("/n button 1 pressed")
-//
-//  if button 2 pressed
-//    true
-//  else
-//    false
-//    printf("/n button 2 pressed")
-//}
 
-void function_name(){
-//function 
-//for int (i=0;i<param_c; i++)
-//  count=+;
-//
-//if param_a, high
-//  width+(50*count);
-//
+void change_value(){ // esenntially a flip flip, it's a needed funtion for using attachinterupt
+  if(button_1 && debounce_1){
+    (button_1 = false);
+  }
+  else{
+    (button_1 = true);
+  }
+  debounce_1 = false;
+  printf("/n button 1 changed");
+
+  if(button_2 && debounce_2){
+    (button_2 = false);
+  }
+  else{
+    (button_2 = true);
+  }
+  debounce_2 = false;
+  printf("/n button 2 changed");
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-
+  int count;
+  digitalWrite(SIGNAL_B,HIGH);
+  delayMicroseconds(50000);
+  digitalWrite(SIGNAL_B,LOW);
+  // genertaes signal
+  for (int i=0;i<PARAM_C; i++){//creates signal pulse
+    if(button_2){
+      count = (param_c-1)-i;
+    }
+    else{
+      count = i;
+    }
+    if(button_1){
+     digitalWrite(SIGNAL_A, HIGH);
+    }
+    delayMicroseconds(param_a + (50*count)); //*1000 for testing with LEDs
+    if(button_1){
+      digitalWrite(SIGNAL_A, LOW);
+    }
+  }
+  delayMicroseconds(PARAM_D);//*1000 for testing with LEDs
 }
