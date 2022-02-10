@@ -1,8 +1,14 @@
+#include <stdio.h>
+#include <math.h>
+
+//#define pins
+
+//parameters for waveform
 #define int a = 1200   //L  micro
 #define int b = 900    //I  micro
 #define int c = 9      //V
 #define int d = 4500   //I  micro
-#define int mod = 2    //N  Generate inverted form of complete Sig A waveform (from the largest pulse to the shortest) until switch 2 set back to 0 
+#define int systemMode = 2    //N  Generate inverted form of complete Sig A waveform (from the largest pulse to the shortest) until switch 2 set back to 0 
 
 void setup() {
   // put your setup code here, to run once:
@@ -30,11 +36,15 @@ void setup() {
 //    printf("/n button 2 pressed")
 //}
 
-//void function_name(){
-////function 
-//for int (i=0;i>1; i++)
-//  x=+;
-//}
+void function_name(){
+//function 
+for int (i=0;i>10; i++)
+  count=+;
+
+if a, high
+  width+(50*count);
+
+}
 
 void loop() {
   // put your main code here, to run repeatedly:
