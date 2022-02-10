@@ -16,7 +16,7 @@
 
 int param_c = PARAM_C;
 int param_a = PARAM_A;
-bool button_1 = false; // creates button variable as boolean, this will help with interupts
+bool button_1 = false;    // creates button variable as boolean, this will help with interupts
 bool button_2 = false;
 bool debounce_1 = false;
 bool debounce_2 = false;
@@ -36,7 +36,7 @@ void setup() {
  
 }
 
-void change_value(){ // esenntially a flip flip, it's a needed funtion for using attachinterupt
+void change_value(){            // esenntially a flip flip, it's a needed funtion for using attachinterupt
   if(button_1 && debounce_1){
     (button_1 = false);
   }
@@ -62,8 +62,8 @@ void loop() {
   delayMicroseconds(50000);
   digitalWrite(SIGNAL_B,LOW);
   // genertaes signal
-  for (int i=0;i<PARAM_C; i++){//creates signal pulse
-    if(button_2){
+  for (int i=0;i<PARAM_C; i++){   //creates signal pulse
+    if(button_2){                 //modifies osciliscope for mode, this is visible through oscilloscope
       count = (param_c-1)-i;
     }
     else{
