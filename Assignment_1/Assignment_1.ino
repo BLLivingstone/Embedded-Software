@@ -16,7 +16,7 @@
 
 int param_c = PARAM_C;
 int param_a = PARAM_A;
-bool button_1 = false; // creates button variable as boolean, this will help with inverting waveform untill button 2 is back to zero
+bool button_1 = false; // creates button variable as boolean, this will help with interupts
 bool button_2 = false;
 bool debounce_1 = false;
 bool debounce_2 = false;
