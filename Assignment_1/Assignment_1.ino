@@ -10,7 +10,7 @@
 //parameters for waveform
 #define PARAM_A 1200     //L  micro
 #define PARAM_B 900      //I  micro
-#define PARAM_C 9       //V
+#define PARAM_C 9        //V
 #define PARAM_D 4500     //I  micro
 //system_mode = 2        //N  Generate inverted form of complete Sig A waveform (from the largest pulse to the shortest) until switch 2 set back to 0 
 
@@ -37,45 +37,42 @@ void setup() {
 }
 
 void change_value(){            // esenntially a flip flip, it's a needed funtion for using attachinterupt
-  if(button_1 && debounce_1){
-    (button_1 = false);
-  }
-  else{
-    (button_1 = true);
-  }
-  debounce_1 = false;
-  printf("/n button 1 changed");
-
-  if(button_2 && debounce_2){
-    (button_2 = false);
-  }
-  else{
-    (button_2 = true);
-  }
-  debounce_2 = false;
-  printf("/n button 2 changed");
+    if(button_1 && debounce_1){
+      (button_1 = false);
+    }
+    else{
+      (button_1 = true);
+    }
+    debounce_1 = false;
+    printf("/n button 1 changed");
+    if(button_2 && debounce_2){
+      (button_2 = false);
+    }
+    else{
+      (button_2 = true);
+    }
+    debounce_2 = false;
+    printf("/n button 2 changed");
 }
 
 void loop() {
   int count;
   digitalWrite(SIGNAL_B,HIGH);
-  delayMicroseconds(50000);
+  delayMicroseconds(50);
   digitalWrite(SIGNAL_B,LOW);
   // genertaes signal
   for (int i=0;i<PARAM_C; i++){   //creates signal pulse
-    if(button_2){                 //modifies osciliscope for mode, this is visible through oscilloscope
-      count = (param_c-1)-i;
-    }
-    else{
-      count = i;
-    }
     if(button_1){
      digitalWrite(SIGNAL_A, HIGH);
+     delayMicroseconds(param_a + (50*i)); //*1000 for testing with LEDs
+    digitalWrite(SIGNAL_A, LOW);
     }
-    delayMicroseconds(param_a + (50*count)); //*1000 for testing with LEDs
-    if(button_1){
-      digitalWrite(SIGNAL_A, LOW);
+    
+   // if(button_2){                 //modifies pulse for mode, this is visible through oscilloscope
+    //  count = (param_c-1)-i;
+    //}
+   // else{
+   //   count = i;
     }
-  }
   delayMicroseconds(PARAM_D);//*1000 for testing with LEDs
 }
