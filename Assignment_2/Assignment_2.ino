@@ -1,23 +1,57 @@
+/* PROBLEM
+  A “Cyclic Executive” is a way to implement a simple real-time operating system that does not rely
+  on the interrupt system for most of its activity. Your task is to design, build and test a simple Cyclic
+  Executive for your microcontroller (ESP32 / Arduino UNO simulated using Proteus) using C/C++.
+
+  SPECIFICATION
+  A small cyclic executive is required to implement a machine monitor system. 
+  The system must execute the following periodic tasks, with specified timings: see each task function*/
+
 #include <Ticker.h>
 #include <stdio.h>
 #include <string.h>
 
 // define pins
-#define SIGNAL_A
-#define button_1
-#define LED
+#define WATCH_DOG 19
+#define PULSE_IN 18
+#define BUTTON_1 12
+#define ANALOG_IN 0
+#define LED 14
+
+//rate of the tasks
+#define RATE_TASK_2 200
+#define RATE_TASK_3 1000
+#define RATE_TASK_4 42
+#define RATE_TASK_5 42
+#define RATE_TASK_6 100
+#define RATE_TASK_7 333
+#define RATE_TASK_8 5000
+
+bool button false;
+
+int error_code;
+
+float average_analog_in;
+float analog_in;
+float analog[4];
+float frequency_in;
+
 
 
 void setup() {
 
-  pinMode(LED)
+  pinMode(LED, OUTPUT)
 
 }
 
-void loop() {
-  // put your main code here, to run repeatedly:
+void ticker(){
+  tick_num++;
+
+  task_1();
+  if((tick%R_T")
 
 }
+
 void task_1{ // rate 5Hz
   // Output a (digital) watchdog waveform (with same length and period of the 
   //‘Normal’ operation of SigB in Assignment 1). Timings should be within 5%.
@@ -37,16 +71,19 @@ void task_4{ //rate 24Hz
 }
 void task_5{ //rate 10Hz
   //Compute filtered analogue value, by averaging the last 4 readings. 
+  average_analogue_in=0;
 }
 void task_6{ //rate 10Hz
   //Execute 1000 times the following instruction:__asm__ __volatile__ ("nop");
   //The statement could be repeated using a single loop, or broken down into 
   //multiple loops (e.g. to be executed in different slots of the cyclic executive). 
-  for ( int i
+  for ( int i=0; i<1000; i++{
+    _asm_ _volitile()
+  }
 }
 void task_7{ //rate 3Hz
   //Perform the following check:
-  if (average_analogue_in > half of maximum range for analogue input){
+  if (average_analogue_in > (3.3/2)){
       error_code = 1
     else:
       error_code = 0
@@ -63,7 +100,7 @@ void task 9{ //rate 0.2Hz
 //    Frequency value (Hz, as an integer);
 //    Filtered analogue input.
 
-printf("/n"button_1"," freq_val","analog_in)
+printf("/n"button"," freq_val","analog_in)
 }
 
 error_code{
