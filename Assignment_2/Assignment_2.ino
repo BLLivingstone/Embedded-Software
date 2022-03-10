@@ -94,7 +94,7 @@ void task_1(){ // rate 5Hz
   // Output a (digital) watchdog waveform (with same length and period of the 
   //‘Normal’ operation of SigB in Assignment 1). Timings should be within 5%.
   digitalWrite(WATCH_DOG, HIGH);
-  delayMicroseconds(50);
+  delayMicroseconds(60);
   digitalWrite(WATCH_DOG,LOW);
 }
 void task_2(){ // rate 1Hz
@@ -158,5 +158,11 @@ void task_9(){ //rate 0.2Hz
 //    Filtered analogue input.
 
 Serial.print(button);
-
+Serial.print(", /t");
+Serial.print(frequency_in);
+Serial.print(", /t");
+Serial.print(average_analogue_in);
+Serial.print("/n");
 }
+
+void loop(){}
