@@ -164,5 +164,4 @@ Serial.print(", /t");
 Serial.print(average_analogue_in);
 Serial.print("/n");
 }
-
 void loop(){}
