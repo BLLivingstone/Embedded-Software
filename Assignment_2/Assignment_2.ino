@@ -85,13 +85,14 @@ void task_5{ //rate 10Hz
   for(int i=1;i<4;i++){
     average_analogue_in = average_analogue_in + analogue[i];
   }
+  average_analogue_in =average_analogue_in / 4;
 }
 void task_6{ //rate 10Hz
   //Execute 1000 times the following instruction:__asm__ __volatile__ ("nop");
   //The statement could be repeated using a single loop, or broken down into 
   //multiple loops (e.g. to be executed in different slots of the cyclic executive). 
   for ( int i=0; i<1000; i++{
-    _asm_ _volitile()
+    __asm__ __volitile__("nop");
   }
 }
 void task_7{ //rate 3Hz
