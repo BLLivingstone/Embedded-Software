@@ -39,7 +39,6 @@ float frequency_in;
 
 
 void setup() {
-
   pinMode(LED, OUTPUT)
 
 }
@@ -55,10 +54,14 @@ void ticker(){
 void task_1{ // rate 5Hz
   // Output a (digital) watchdog waveform (with same length and period of the 
   //‘Normal’ operation of SigB in Assignment 1). Timings should be within 5%.
+  digitalWrite(WATCH_DOG, HIGH);
+  delayMicroseconds(50);
+  digitalWrite(WATCH_DOG,LOW);
 }
 void task_2{ // rate 1Hz
   //Monitor one digital input (to be connected to a pushbutton/switch or a signal 
-  //generator for students using Proteus).
+  //generator for students using Proteus)
+  button = digitalRead(BUTTON_1);
 }
 void task_3{ //rate 24Hz
   //Measure the frequency of a 3.3v square wave signal. The frequency will be in 
@@ -101,8 +104,4 @@ void task 9{ //rate 0.2Hz
 //    Filtered analogue input.
 
 printf("/n"button"," freq_val","analog_in)
-}
-
-error_code{
-
 }
