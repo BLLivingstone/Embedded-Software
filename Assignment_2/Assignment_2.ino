@@ -39,16 +39,20 @@ float frequency_in;
 
 
 void setup() {
-  pinMode(LED, OUTPUT)
-
+  pinMode(BUTTON_1,INPUT);
+  pinMode(PULSE_IN,INPUT);
+  pinMode(ANALOG_IN,INPUT);
+  
+  pinMode(WATCH_DOG,OUTPUT);
+  pinMode(LED, OUTPUT);
 }
 
 void ticker(){
   tick_num++;
 
   task_1();
-  if((tick%R_T")
-
+  if((tick%R_T";
+  
 }
 
 void task_1{ // rate 5Hz
@@ -67,6 +71,8 @@ void task_3{ //rate 24Hz
   //Measure the frequency of a 3.3v square wave signal. The frequency will be in 
   //the range 500Hz to 1000Hz and the signal will be a standard square wave (50% 
   //duty cycle). Accuracy to 2.5% is acceptable.
+  
+  
 }
 void task_4{ //rate 24Hz 
   //Read one analogue input. The analogue input must be connected to a maximum 
@@ -75,6 +81,10 @@ void task_4{ //rate 24Hz
 void task_5{ //rate 10Hz
   //Compute filtered analogue value, by averaging the last 4 readings. 
   average_analogue_in=0;
+  
+  for(int i=1;i<4;i++){
+    average_analogue_in = average_analogue_in + analogue[i];
+  }
 }
 void task_6{ //rate 10Hz
   //Execute 1000 times the following instruction:__asm__ __volatile__ ("nop");
@@ -86,7 +96,7 @@ void task_6{ //rate 10Hz
 }
 void task_7{ //rate 3Hz
   //Perform the following check:
-  if (average_analogue_in > (3.3/2)){
+  if (average_analogue_in >(3.3/2)){
       error_code = 1
     else:
       error_code = 0
