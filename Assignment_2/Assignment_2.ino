@@ -19,6 +19,7 @@
 #define LED 14
 
 //rate of the tasks
+#define RATE_TASK_1 14
 #define RATE_TASK_2 200
 #define RATE_TASK_3 1000
 #define RATE_TASK_4 42
@@ -63,7 +64,9 @@ void setup() {
 void tick_increase(){
   tick_num++;
 
-  task_1();
+  if((tick_num%RATE_TASK_1) == 0){
+     task_1();
+  }
   if((tick_num%RATE_TASK_2) == 0){
      task_2();
   }
@@ -158,10 +161,10 @@ void task_9(){ //rate 0.2Hz
 //    Filtered analogue input.
 
 Serial.print(button);
-Serial.print(", /t");
+Serial.print(", \t");
 Serial.print(frequency_in);
-Serial.print(", /t");
+Serial.print(", \t");
 Serial.print(average_analogue_in);
-Serial.print("/n");
+Serial.print("\n");
 }
 void loop(){}
