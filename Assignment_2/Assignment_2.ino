@@ -46,18 +46,21 @@ Ticker ticker;
 void setup() {
   Serial.begin(57600);
   tick_num =0;
-  pinMode(BUTTON_1,INPUT);
+  //pin definition
+  pinMode(BUTTON_1,INPUT); 
   pinMode(PULSE_IN,INPUT);
   pinMode(ANALOG_IN,INPUT);
   
   pinMode(WATCH_DOG,OUTPUT);
   pinMode(LED, OUTPUT);
-  
+
+  //set analog to 0
   analog[0] =0;
   analog[1] =0;
   analog[2] =0;
   analog[3] =0;
 
+  //create ticker
   ticker.attach_ms(1, tick_increase);
 }
 
@@ -97,7 +100,7 @@ void task_1(){ // rate 5Hz
   // Output a (digital) watchdog waveform (with same length and period of the 
   //‘Normal’ operation of SigB in Assignment 1). Timings should be within 5%.
   digitalWrite(WATCH_DOG, HIGH);
-  delayMicroseconds(60);
+  delayMicroseconds(50);
   digitalWrite(WATCH_DOG,LOW);
 }
 void task_2(){ // rate 1Hz
@@ -109,7 +112,7 @@ void task_3(){ //rate 24Hz
   //Measure the frequency of a 3.3v square wave signal. The frequency will be in 
   //the range 500Hz to 1000Hz and the signal will be a standard square wave (50% 
   //duty cycle). Accuracy to 2.5% is acceptable.
-  wave_form = pulseIn(PULSE_IN, LOW); // generates waveform in micro seconds
+  wave_form = pulseIn(PULSE_IN, LOW); // returns the length of pulse in micro seconds
   frequency_in = 1000000.0/(wave_form*2); // conversion for seconds
   
   
@@ -120,7 +123,7 @@ void task_4(){ //rate 24Hz
   for (int i=1;i<4;i++){
     analog[i-1] = analog[i];
   }
-  analog[3] = analogRead(ANALOG_IN);
+  analog[2] = analogRead(ANALOG_IN);
   
 }
 void task_5(){ //rate 10Hz
@@ -142,7 +145,7 @@ void task_6(){ //rate 10Hz
 }
 void task_7(){ //rate 3Hz
   //Perform the following check:
-  if(average_analogue_in >(3.3/2)){
+  if(average_analogue_in >(3.3/2)){ //3.3/2 is half maximum range for analogue input
       error_code = 1;
   }
   else{
