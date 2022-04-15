@@ -204,14 +204,14 @@ void task_5(void *pvParameters){ //rate 10Hz
   data_t.average_analogue_in=0;
   (void) pvParameters;
   for(;;){
-    int c = 0;
+    float c = 0;
     if(xQueueReceive(a_queue, &c, 100)){
         for (int i = 1; i < 4; i++)
         {
-            analogs[i - 1] = analogs[i];
+            analog[i - 1] = analog[i];
         }
 
-        analogs[3] = x * (3.3 / 4095);
+        analog[3] = c * (3.3 / 4095);
     }
         
     if(xSemaphoreTake(data_protc, portMAX_DELAY) == pdTRUE){
@@ -242,10 +242,10 @@ void task_7(void *pvParameters){ //rate 3Hz
   //Perform the following check:
   (void) pvParameters;
   for(;;){
-
-    if (xQueueReceive(average_queue, &x, 100)){
+    float c = 0;
+    if (xQueueReceive(a_queue, &c, 100)){
     
-      if(a_queue >(3.3/2)){ //3.3/2 is half maximum range for analogue input
+      if(c >(3.3/2)){ //3.3/2 is half maximum range for analogue input
           error_code = 1;
       }
       else{
@@ -286,7 +286,7 @@ void task_9(void *pvParameters){ //rate 0.2Hz
 
       // delays task for rate
       // before restarting
-      TaskDelay(RATE_TASK_9);
+      vTaskDelay(RATE_TASK_9);
     }
 }
 void loop(){} // only needed for code to compile
