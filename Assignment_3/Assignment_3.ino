@@ -41,8 +41,6 @@ int error_code;
 
 float analog_in;
 float analog[4];
-float frequency_in;
-float wave_form;
 
 static QueueHandle_t a_queue;
 static SemaphoreHandle_t data_protc;
@@ -79,17 +77,17 @@ void setup() {
   xTaskCreate(
         task_1,
         "task 1", // name for readability 
-        512,      // stack size
+        1024,      // stack size
         NULL,
-        4,        //priority
+        3,        //priority
         NULL);
 
     xTaskCreate(
         task_2,
         "task 2",
-        512,
+        1024,
         NULL,
-        3,
+        2,
         NULL);
 
     xTaskCreate(
@@ -97,7 +95,7 @@ void setup() {
         "task 3",
         1024,
         NULL,
-        3,
+        2,
         NULL);
 
     xTaskCreate(
@@ -105,7 +103,7 @@ void setup() {
         "task 4",
         1024,
         NULL,
-        2,
+        3,
         NULL);
 
     xTaskCreate(
@@ -119,9 +117,9 @@ void setup() {
     xTaskCreate(
         task_6,
         "task 6",
-        512,
+        1024,
         NULL,
-        3,
+        2,
         NULL);
 
     xTaskCreate(
@@ -129,15 +127,15 @@ void setup() {
         "task 7",
         1024,
         NULL,
-        4,
+        3,
         NULL);
 
     xTaskCreate(
         task_8,
         "task 8",
-        512,
+        1024,
         NULL,
-        3,
+        2,
         NULL);
 
     xTaskCreate(
@@ -145,7 +143,7 @@ void setup() {
         "task 9",
         1024,
         NULL,
-        4,
+        3,
         NULL);
 }
 
