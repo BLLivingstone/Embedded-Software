@@ -3,10 +3,19 @@
   on the interrupt system for most of its activity. Your task is to design, build and test a simple Cyclic
   Executive for your microcontroller (ESP32 / Arduino UNO simulated using Proteus) using C/C++.
 
+  Your program should print values to the serial port (requirement 9) ONLY when the pushbutton
+  (requirement 2) is pressed.
+
+  • A queue, to post and read the average analogue value (requirements 5 and 7)
+  • A global structure (struct), to store all the data printed to the serial port (requirement 9).
+  Access to this structure must be adequately protected, using FreeRTOS’semaphore(s)
+  • Any other FreeRTOS constructs you consider useful for your program. 
+
   SPECIFICATION
+  use FreeRTOS to 
   A small cyclic executive is required to implement a machine monitor system. 
   The system must execute the following periodic tasks, with specified timings: see each task function*/
-  
+
 // define pins
 #define WATCH_DOG 19
 #define PULSE_IN 18
@@ -44,7 +53,7 @@ float analog[4];
 float wave_form;
 
 static QueueHandle_t a_queue;
-static SemaphoreHandle_t data_protc;
+static SemaphoreHandle_t data_protec;
 
 struct data_for_tasks{
   bool button = false;
@@ -73,7 +82,7 @@ void setup() {
   a_queue = xQueueCreate(1, sizeof(float));
 
   //sets a protection for the data structure
-  data_protc = xSemaphoreCreateMutex();
+  data_protec = xSemaphoreCreateMutex();
 
   xTaskCreate(
         task_1,
@@ -164,10 +173,10 @@ void task_2(void *pvParameters){ // rate 1Hz
   //generator for students using Proteus)
   (void) pvParameters;
   for(;;){
-    if(xSemaphoreTake(data_protc, portMAX_DELAY) == pdTRUE){
+    if(xSemaphoreTake(data_protec, portMAX_DELAY) == pdTRUE){
       data_tsk.button = digitalRead(BUTTON_1);
       button_pressed = data_tsk.button;
-      xSemaphoreGive(data_protc);
+      xSemaphoreGive(data_protec);
     }
       vTaskDelay(RATE_TASK_2);
   }
@@ -178,10 +187,10 @@ void task_3(void *pvParameters){ //rate 24Hz
   //duty cycle). Accuracy to 2.5% is acceptable.
   (void) pvParameters;
   for(;;){
-    if(xSemaphoreTake(data_protc, portMAX_DELAY) == pdTRUE){
+    if(xSemaphoreTake(data_protec, portMAX_DELAY) == pdTRUE){
       wave_form = pulseIn(PULSE_IN, LOW); // returns the length of pulse in micro seconds
       data_tsk.frequency_in = 1000000.0/(wave_form*2); // conversion for seconds
-      xSemaphoreGive(data_protc);
+      xSemaphoreGive(data_protec);
     }
       vTaskDelay(RATE_TASK_3);
   }
@@ -200,6 +209,7 @@ void task_4(void *pvParameters){ //rate 24Hz
 }
 void task_5(void *pvParameters){ //rate 10Hz
   //Compute filtered analogue value, by averaging the last 4 readings. 
+  //• A queue, to post and read the average analogue value (requirements 5 and 7)
   data_tsk.average_analogue_in=0;
   (void) pvParameters;
   for(;;){
@@ -213,14 +223,14 @@ void task_5(void *pvParameters){ //rate 10Hz
         analog[3] = c * (3.3 / 4095);
     }
         
-    if(xSemaphoreTake(data_protc, portMAX_DELAY) == pdTRUE){
+    if(xSemaphoreTake(data_protec, portMAX_DELAY) == pdTRUE){
       for(int i=1;i<4;i++){
         data_tsk.average_analogue_in = data_tsk.average_analogue_in + analog[i];
       }
       
       data_tsk.average_analogue_in = data_tsk.average_analogue_in / 4;
       xQueueSend(a_queue, &c, 100);
-      xSemaphoreGive(data_protc);
+      xSemaphoreGive(data_protec);
     }
       vTaskDelay(RATE_TASK_5);
   }
@@ -238,7 +248,7 @@ void task_6(void *pvParameters){ //rate 10Hz
   }
 }
 void task_7(void *pvParameters){ //rate 3Hz
-  //Perform the following check:
+  //Perform the following check using a queue, to post and read the average analogue value
   (void) pvParameters;
   for(;;){
     float c = 0;
@@ -270,7 +280,7 @@ void task_9(void *pvParameters){ //rate 0.2Hz
 //    Filtered analogue input.
   (void) pvParameters;
     for (;;){
-      if(xSemaphoreTake(data_protc, portMAX_DELAY) == pdTRUE){
+      if(xSemaphoreTake(data_protec, portMAX_DELAY) == pdTRUE){
           if(button_pressed == false) {
               Serial.print(data_tsk.button);
               Serial.print(", \t");
@@ -280,7 +290,7 @@ void task_9(void *pvParameters){ //rate 0.2Hz
               Serial.print("\n");
           }
           
-          xSemaphoreGive(data_protc);
+          xSemaphoreGive(data_protec);
       }
 
       // delays task for rate
