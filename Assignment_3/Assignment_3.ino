@@ -41,6 +41,7 @@ int error_code;
 
 float analog_in;
 float analog[4];
+float wave_form;
 
 static QueueHandle_t a_queue;
 static SemaphoreHandle_t data_protc;
@@ -50,7 +51,7 @@ struct data_for_tasks{
   float frequency_in;
   float average_analogue_in;
 };
-data_for_tasks data_t;
+data_for_tasks data_tsk;
 
 void setup() {
   Serial.begin(57600);
@@ -164,8 +165,8 @@ void task_2(void *pvParameters){ // rate 1Hz
   (void) pvParameters;
   for(;;){
     if(xSemaphoreTake(data_protc, portMAX_DELAY) == pdTRUE){
-      data_t.button = digitalRead(BUTTON_1);
-      button_pressed = data_t.button;
+      data_tsk.button = digitalRead(BUTTON_1);
+      button_pressed = data_tsk.button;
       xSemaphoreGive(data_protc);
     }
       vTaskDelay(RATE_TASK_2);
@@ -179,7 +180,7 @@ void task_3(void *pvParameters){ //rate 24Hz
   for(;;){
     if(xSemaphoreTake(data_protc, portMAX_DELAY) == pdTRUE){
       wave_form = pulseIn(PULSE_IN, LOW); // returns the length of pulse in micro seconds
-      data_t.frequency_in = 1000000.0/(wave_form*2); // conversion for seconds
+      data_tsk.frequency_in = 1000000.0/(wave_form*2); // conversion for seconds
       xSemaphoreGive(data_protc);
     }
       vTaskDelay(RATE_TASK_3);
@@ -199,7 +200,7 @@ void task_4(void *pvParameters){ //rate 24Hz
 }
 void task_5(void *pvParameters){ //rate 10Hz
   //Compute filtered analogue value, by averaging the last 4 readings. 
-  data_t.average_analogue_in=0;
+  data_tsk.average_analogue_in=0;
   (void) pvParameters;
   for(;;){
     float c = 0;
@@ -214,10 +215,10 @@ void task_5(void *pvParameters){ //rate 10Hz
         
     if(xSemaphoreTake(data_protc, portMAX_DELAY) == pdTRUE){
       for(int i=1;i<4;i++){
-        data_t.average_analogue_in = data_t.average_analogue_in + analog[i];
+        data_tsk.average_analogue_in = data_tsk.average_analogue_in + analog[i];
       }
       
-      data_t.average_analogue_in = data_t.average_analogue_in / 4;
+      data_tsk.average_analogue_in = data_tsk.average_analogue_in / 4;
       xQueueSend(a_queue, &c, 100);
       xSemaphoreGive(data_protc);
     }
@@ -271,11 +272,11 @@ void task_9(void *pvParameters){ //rate 0.2Hz
     for (;;){
       if(xSemaphoreTake(data_protc, portMAX_DELAY) == pdTRUE){
           if(button_pressed == false) {
-              Serial.print(data_t.button);
+              Serial.print(data_tsk.button);
               Serial.print(", \t");
-              Serial.print(data_t.frequency_in);
+              Serial.print(data_tsk.frequency_in);
               Serial.print(", \t");
-              Serial.print(data_t.average_analogue_in);
+              Serial.print(data_tsk.average_analogue_in);
               Serial.print("\n");
           }
           
