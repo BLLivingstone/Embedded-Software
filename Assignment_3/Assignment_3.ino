@@ -264,17 +264,23 @@ void task_9(void *pvParameters){ //rate 0.2Hz
 //    Frequency value (Hz, as an integer);
 //    Filtered analogue input.
   (void) pvParameters;
-  for(;;){
-    if(button_pressed == false){
-      //serial print task 2 switch button_pressed
-      Serial.print(data_t.button);
-      Serial.print(", \t");
-      Serial.print(data_t.frequency_in);
-      Serial.print(", \t");
-      Serial.print(data_t.average_analogue_in);
-      Serial.print("\n");
-     }
-    vTaskDelay(RATE_TASK_9);
-  }
+    for (;;){
+      if(xSemaphoreTake(data_protc, portMAX_DELAY) == pdTRUE){
+          if(button_pressed == false) {
+              Serial.print(data_t.button);
+              Serial.print(", \t");
+              Serial.print(data_t.frequency_in);
+              Serial.print(", \t");
+              Serial.print(data_t.average_analogue_in);
+              Serial.print("\n");
+          }
+          
+          xSemaphoreGive(data_protc);
+      }
+
+      // delays task for rate
+      // before restarting
+      TaskDelay(RATE_TASK_9);
+    }
 }
 void loop(){} // only needed for code to compile
