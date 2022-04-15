@@ -215,19 +215,15 @@ void task_5(void *pvParameters){ //rate 10Hz
   for(;;){
     float c = 0;
     if(xQueueReceive(a_queue, &c, 100)){
-        for (int i = 1; i < 4; i++)
-        {
+        for (int i = 1; i < 4; i++){
             analog[i - 1] = analog[i];
         }
-
         analog[3] = c * (3.3 / 4095);
-    }
-        
+    }   
     if(xSemaphoreTake(data_protec, portMAX_DELAY) == pdTRUE){
       for(int i=1;i<4;i++){
         data_tsk.average_analogue_in = data_tsk.average_analogue_in + analog[i];
       }
-      
       data_tsk.average_analogue_in = data_tsk.average_analogue_in / 4;
       xQueueSend(a_queue, &c, 100);
       xSemaphoreGive(data_protec);
@@ -253,7 +249,6 @@ void task_7(void *pvParameters){ //rate 3Hz
   for(;;){
     float c = 0;
     if (xQueueReceive(a_queue, &c, 100)){
-    
       if(c >(3.3/2)){ //3.3/2 is half maximum range for analogue input
           error_code = 1;
       }
