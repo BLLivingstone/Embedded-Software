@@ -289,12 +289,9 @@ void task_9(void *pvParameters){ //rate 0.2Hz
               Serial.print(data_tsk.average_analogue_in);
               Serial.print("\n");
           }
-          
           xSemaphoreGive(data_protec);
       }
-
-      // delays task for rate
-      // before restarting
+      // delays task for rate before restarting
       vTaskDelay(RATE_TASK_9);
     }
 }
