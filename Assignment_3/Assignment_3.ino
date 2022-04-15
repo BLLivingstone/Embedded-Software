@@ -70,6 +70,12 @@ void setup() {
   analog[2] =0;
   analog[3] =0;
 
+  //set up
+  a_queue = xQueueCreate(1, sizeof(float));
+
+  //sets a protection for the data structure
+  data_protc = xSemaphoreCreateMutex();
+
   xTaskCreate(
         task_1,
         "task 1", // name for readability 
